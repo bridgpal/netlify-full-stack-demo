@@ -13,10 +13,5 @@ export default defineStackbitConfig({
       accessToken: process.env.CONTENTFUL_MANAGEMENT_TOKEN!,
     }),
   ],
-  models: {
-    page: { type: 'page', urlPath: '/{id}' },
-  },
-  modelExtensions: [
-    { name: 'post', type: 'page', urlPath: '/posts/{id}' },
-  ],
+  modelExtensions: [{ name: 'page', type: 'page', urlPath: '/{slug}' }]
 })
