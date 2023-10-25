@@ -14,9 +14,9 @@ export default defineStackbitConfig({
     }),
   ],
   models: {
-    page: { type: 'page', urlPath: '/{slug}' },
+    page: { type: 'page', urlPath: '/{id}' },
   },
   modelExtensions: [
-    { name: 'post', type: 'page', urlPath: '/posts/{slug}' },
+    { name: 'post', type: 'page', urlPath: '/posts/{id}' },
   ],
 })
