@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { createClient } from 'contentful';
+import { KontentDelivery } from '@kontent-ai/delivery-sdk';
+
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -37,19 +38,17 @@ export default function Home({ posts }: { posts: any }) {
 
 export const getStaticProps = async () => {
   try {
-    const client = createClient({
-      accessToken: IS_DEV ? process.env.CONTENTFUL_PREVIEW_TOKEN : process.env.CONTENTFUL_DELIVERY_TOKEN,
-      space: process.env.CONTENTFUL_SPACE_ID,
-      host: IS_DEV ? 'preview.contentful.com' : 'cdn.contentful.com',
+    var deliveryClient = KontentDelivery.createDeliveryClient({
+      environmentId: 'cbdb567e-0cfc-0012-9089-88d49d69f949'
     });
   
-    const entries = await client.getEntries({
-      content_type: 'statItem'
-    });
-    console.log("ENTRIES", entries.items);
-    return { props: { posts: entries.items || [] }}
+    const response = deliveryClient.items().type('blog').toPromise()
+    const posts = response.data.items || [];
+    console.log("kontent", posts);
+    return { props: { posts } };
+
   } catch(err) {
-    console.error(err);
-    return { props: { posts: [] }}
+      console.error(err);
+      return { props: { posts: [] }}
   }
 }

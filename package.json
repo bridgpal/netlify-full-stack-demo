@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@kontent-ai/delivery-sdk": "^14.4.0",
     "@netlify/plugin-nextjs": "^4.41.1",
     "@next/font": "13.4.19",
     "@types/node": "20.5.7",
