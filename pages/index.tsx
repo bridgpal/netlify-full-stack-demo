@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { KontentDelivery } from '@kontent-ai/delivery-sdk';
+const KontentDelivery = require('@kontent-ai/delivery-sdk');
 
 
 const IS_DEV = process.env.NODE_ENV === 'development';
@@ -16,14 +16,14 @@ export default function Home({ posts }: { posts: any }) {
 
         <div className="bg-slate-100 p-12 rounded-xl">
           <h2 className="text-2xl mb-12">
-            <img src="/contentful.png" alt="Contentful" className="w-36"/>
+            <img src="/kontent.svg" alt="Contentful" className="w-36"/>
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
             {posts?.map((post: any) => (
-              <div key={post.sys.id} className="bg-white rounded-xl"  data-sb-object-id={`${post.sys.id}`}>
+              <div key={post.system.id} className="bg-white rounded-xl"  data-sb-object-id={`${post.system.id}`}>
                 <img className="rounded-xl rounded-b-none w-full"/>
                 <div className="p-8">
-                  <h2 className="font-bold text-xl mb-8" data-sb-field-path="label">Title: {`${post.fields.label}`}</h2>
+                  <h2 className="font-bold text-xl mb-8" data-sb-field-path="name">Title: {`${post.system.name}`}</h2>
                   <Link href="/" className="border border-slate-400 hover:bg-slate-200 transition-all rounded px-4 py-2">View Post</Link>
                 </div>
               </div>
@@ -42,8 +42,9 @@ export const getStaticProps = async () => {
       environmentId: 'cbdb567e-0cfc-0012-9089-88d49d69f949'
     });
   
-    const response = deliveryClient.items().type('blog').toPromise()
+    const response = await deliveryClient.items().type('blog').toPromise()
     const posts = response.data.items || [];
+
     console.log("kontent", posts);
     return { props: { posts } };
 
